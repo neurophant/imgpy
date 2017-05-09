@@ -1,6 +1,12 @@
 from PIL import Image, ImageSequence
 
 
+__author__ = 'Anton Smolin'
+__copyright__ = 'Copyright (C) 2017 Anton Smolin'
+__license__ = 'MIT'
+__version__ = '0.1.0'
+
+
 class ImgPyInfo:
     __MODES = {
         '1': 'black and white',
@@ -102,7 +108,7 @@ class ImgPy:
     def save(self, *, fp):
         self.__load()
 
-        if self.info.format == 'GIF' and self.info.animated:
-            self.__frames[0].save(fp, save_all=True, append_images=self.__frames[1:])
-        else:
-            self.__frames[0].save(fp, format=self.info.format)
+        options = {'save_all': True, 'append_images': self.__frames[1:]} \
+            if self.info.format == 'GIF' and self.info.animated else {}
+
+        self.__frames[0].save(fp, format=self.info.format, **options)
