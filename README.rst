@@ -29,7 +29,7 @@ Setup
     
     python-3.6 -m venv .env
     source .env/bin/activate
-    pip install enimda
+    pip install imgpy
 
 Usage
 -----
