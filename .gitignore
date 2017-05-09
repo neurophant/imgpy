@@ -1,0 +1,13 @@
+*.py[co]
+__pycache__
+.env
+build/
+dist/
+*.egg-info/
+htmlcov
+.coverage
+.cache
+00*.png
+00*.gif
+00*.jpeg
+demo.py
