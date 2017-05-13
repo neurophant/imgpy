@@ -24,4 +24,5 @@ def test_paste(path, image):
         src.paste(255, box=image['box'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == (src.width, src.height, src.n_frames)
+            assert (dest.width, dest.height,
+                    dest.n_frames) == (src.width, src.height, src.n_frames)

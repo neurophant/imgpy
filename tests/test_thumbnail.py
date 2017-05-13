@@ -27,4 +27,5 @@ def test_thumbnail(path, image):
         src.thumbnail(image['size'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == image['res'] + (src.n_frames, )
+            assert (dest.width, dest.height,
+                    dest.n_frames) == image['res'] + (src.n_frames, )

@@ -24,4 +24,5 @@ def test_transform(path, image):
         src.transform(image['size'], Image.EXTENT, (0, 0) + image['size'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == image['size'] + (src.n_frames, )
+            assert (dest.width, dest.height,
+                    dest.n_frames) == image['size'] + (src.n_frames, )

@@ -6,10 +6,12 @@ import pytest
 from imgpy import Img
 
 
-@pytest.mark.parametrize('image', ('anima/bordered.gif', 'anima/clear.gif', 'fixed/bordered.jpg', 'fixed/clear.jpg'))
+@pytest.mark.parametrize('image', ('anima/bordered.gif', 'anima/clear.gif',
+                                   'fixed/bordered.jpg', 'fixed/clear.jpg'))
 def test_transpose(path, image):
     with Img(fp=path(image)) as src, TemporaryFile() as tf:
         src.transpose(Image.FLIP_LEFT_RIGHT)
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == (src.width, src.height, src.n_frames)
+            assert (dest.width, dest.height,
+                    dest.n_frames) == (src.width, src.height, src.n_frames)

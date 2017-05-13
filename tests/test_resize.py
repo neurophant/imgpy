@@ -23,4 +23,5 @@ def test_resize(path, image):
         src.resize(image['size'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == image['size'] + (src.n_frames, )
+            assert (dest.width, dest.height,
+                    dest.n_frames) == image['size'] + (src.n_frames, )
