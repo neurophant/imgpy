@@ -7,7 +7,7 @@ usable interface and access to each frame.
 
 |pypi| |travisci|
 
-.. |pypi|:: https://badge.fury.io/py/imgpy.svg
+.. |pypi| image:: https://badge.fury.io/py/imgpy.svg
     :target: https://badge.fury.io/py/imgpy
     :alt: pypi version
 .. |travisci| image:: https://travis-ci.org/embali/imgpy.svg?branch=master
