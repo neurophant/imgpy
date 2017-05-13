@@ -26,6 +26,7 @@ Info (attributes):
 * mode_desc
 * n_frames
 * animated
+* frames
 
 Methods:
 
@@ -38,6 +39,8 @@ Methods:
 * `thumbnail <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.thumbnail>`_
 * `transform <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transform>`_
 * `transpose <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transpose>`_
+* save
+* close
 
 Requirements
 ------------
