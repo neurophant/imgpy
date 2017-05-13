@@ -29,5 +29,5 @@ def test_crop(path, image):
             src.save(fp=tf)
             tf.seek(0)
             with Img(fp=tf) as dest:
-                res = (dest.info.width, dest.info.height, dest.info.frames)
+                res = (dest.width, dest.height, dest.n_frames)
     assert res == image['res']

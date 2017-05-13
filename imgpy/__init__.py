@@ -9,16 +9,7 @@ __license__ = 'MIT'
 __version__ = '0.1.0'
 
 
-def _lazy_load(func):
-    def wrapped(self, *args, **kwargs):
-        self._load()
-
-        return func(self, *args, **kwargs)
-
-    return wrapped
-
-
-class ImgInfo:
+class Img:
     __MODES = {
         '1': 'black and white',
         'L': 'grayscale',
@@ -35,54 +26,64 @@ class ImgInfo:
         'I': 'signed integer pixels',
         'F': 'floating point pixels'
     }
-
-    format = None
-    width = None
-    height = None
-    mode = None
-    frames = None
-
-    @property
-    def animated(self):
-        return self.frames > 1
-
-    def __init__(self, *, image):
-        if isinstance(image, Img):
-            frame = image.frame(index=0)
-
-            self.format = image.info.format
-            self.width = frame.width
-            self.height = frame.height
-            self.mode = (frame.mode, self.__MODES.get(frame.mode))
-            self.frames = image.info.frames
-        else:
-            self.format = image.format
-            self.width = image.width
-            self.height = image.height
-            self.mode = (image.mode, self.__MODES.get(image.mode))
-
-            try:
-                self.frames = image.n_frames
-            except AttributeError:
-                self.frames = 1
-
-
-class Img:
     __METHODS = ('convert', 'crop', 'filter', 'paste', 'resize', 'rotate',
                  'thumbnail', 'transform', 'transpose')
 
+    __fp = None
     __image = None
-    __info = None
     __frames = None
 
     @property
-    def info(self):
-        if self.__info is None:
-            self.__info = ImgInfo(image=self.__image)
+    def format(self):
+        return self.__image.format
 
-        return self.__info
+    @property
+    def width(self):
+        if not self.__frames:
+            return self.__image.width
+
+        return self.__frames[0].width
+
+    @property
+    def height(self):
+        if not self.__frames:
+            return self.__image.height
+
+        return self.__frames[0].height
+
+    @property
+    def mode(self):
+        if not self.__frames:
+            return self.__image.mode
+
+        return self.__frames[0].mode
+
+    @property
+    def mode_desc(self):
+        return self.__MODES.get(self.mode)
+
+    @property
+    def n_frames(self):
+        if self.__frames:
+            return len(self.__frames)
+
+        try:
+            return self.__image.n_frames
+        except AttributeError:
+            return 1
+
+    @property
+    def animated(self):
+        return self.n_frames > 1
+
+    @property
+    def frames(self):
+        self.__load()
+
+        return self.__frames
 
     def __init__(self, *, fp):
+        self.__fp = fp
         self.__image = Image.open(fp)
 
     def __enter__(self):
@@ -91,7 +92,7 @@ class Img:
     def __exit__(self, *args):
         self.close()
 
-    def _load(self):
+    def __load(self):
         if self.__frames is None:
             self.__frames = [frame.copy() for frame in Iterator(self.__image)]
 
@@ -100,36 +101,25 @@ class Img:
             raise AttributeError
 
         def proxy(*args, **kwargs):
-            self._load()
+            self.__load()
 
             for index, frame in enumerate(self.__frames):
                 res = getattr(frame, name)(*args, **kwargs)
                 if isinstance(res, Image.Image):
                     self.__frames[index] = res
 
-            self.__info = ImgInfo(image=self)
-
         return proxy
 
-    @_lazy_load
-    def frame(self, *, index):
-        return self.__frames[index]
-
-    @_lazy_load
-    def frames(self):
-        for frame in self.__frames:
-            yield frame
-
-    @_lazy_load
-    def update(self, *, index, frame):
-        self.__frames[index] = frame
-
-    @_lazy_load
     def save(self, *, fp):
-        options = {'save_all': True, 'append_images': self.__frames[1:]} \
-            if self.info.format == 'GIF' and self.info.animated else {}
+        self.__load()
 
-        self.__frames[0].save(fp, format=self.info.format, **options)
+        if not self.__frames:
+            return
+
+        options = {'save_all': True, 'append_images': self.__frames[1:]} \
+            if self.format == 'GIF' and self.animated else {}
+
+        self.__frames[0].save(fp, format=self.format, **options)
 
     def close(self):
         self.__image.close()
