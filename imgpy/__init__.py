@@ -78,7 +78,8 @@ class Img:
 
     @property
     def frames(self):
-        self.__load()
+        if self.__frames is None:
+            self.__frames = [frame.copy() for frame in Iterator(self.__image)]
 
         return self.__frames
 
@@ -92,18 +93,12 @@ class Img:
     def __exit__(self, *args):
         self.close()
 
-    def __load(self):
-        if self.__frames is None:
-            self.__frames = [frame.copy() for frame in Iterator(self.__image)]
-
     def __getattr__(self, name):
         if name not in self.__METHODS:
             raise AttributeError
 
         def proxy(*args, **kwargs):
-            self.__load()
-
-            for index, frame in enumerate(self.__frames):
+            for index, frame in enumerate(self.frames):
                 res = getattr(frame, name)(*args, **kwargs)
                 if isinstance(res, Image.Image):
                     self.__frames[index] = res
@@ -111,9 +106,7 @@ class Img:
         return proxy
 
     def save(self, *, fp):
-        self.__load()
-
-        if not self.__frames:
+        if not self.frames:
             return
 
         options = {'save_all': True, 'append_images': self.__frames[1:]} \
