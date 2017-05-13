@@ -15,6 +15,7 @@ Features
 --------
 
 Info (attributes):
+
 * format
 * width
 * height
@@ -24,6 +25,7 @@ Info (attributes):
 * animated
 
 Methods:
+
 * `convert <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.convert>`_
 * `crop <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.crop>`_
 * `filter <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.filter`_
