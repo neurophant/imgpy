@@ -28,13 +28,13 @@ Methods:
 
 * `convert <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.convert>`_
 * `crop <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.crop>`_
-* `filter <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.filter`_
-* `paste <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.paste`_
-* `resize <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.resize`_
-* `rotate <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.rotate`_
-* `thumbnail <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.thumbnail`_
-* `transform <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transform`_
-* `transpose <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transpose`_
+* `filter <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.filter>`_
+* `paste <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.paste>`_
+* `resize <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.resize>`_
+* `rotate <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.rotate>`_
+* `thumbnail <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.thumbnail>`_
+* `transform <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transform>`_
+* `transpose <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transpose>`_
 
 Requirements
 ------------
