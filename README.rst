@@ -5,8 +5,11 @@ Image processing library for Python with animated GIFs support - proxy wrapper
 around `Pillow <https://github.com/python-pillow/Pillow/>`_ library with simple
 usable interface and access to each frame.
 
-|travisci|
+|pypi| |travisci|
 
+.. |pypi|:: https://badge.fury.io/py/imgpy.svg
+    :target: https://badge.fury.io/py/imgpy
+    :alt: pypi version
 .. |travisci| image:: https://travis-ci.org/embali/imgpy.svg?branch=master
     :target: https://travis-ci.org/embali/imgpy
     :alt: travis ci build status
@@ -60,9 +63,9 @@ Usage
 
 
     # Create thumbnail image
-    with Img(fp='test.jpg') as im:
+    with Img(fp='test.gif') as im:
         im.thumbnail(size=(100, 100))
-        im.save(fp='thumb.jpg')
+        im.save(fp='thumb.gif')
 
 Tests
 -----
