@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='imgpy',
-    version='0.1.0',
+    version='1.0.0',
     description='Image processing library for Python with animated GIFs support',
     long_description=long_description,
     url='https://github.com/embali/imgpy/',
@@ -18,9 +18,10 @@ setup(
     author_email='smolin.anton@gmail.com',
     license='MIT',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable'',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
     keywords='image info crop resize thumbnail gif',

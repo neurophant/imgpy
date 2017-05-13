@@ -1,7 +1,9 @@
 ImgPy
 =====
 
-Image processing library for Python with animated GIFs support
+Image processing library for Python with animated GIFs support - proxy wrapper
+around `Pillow <https://github.com/python-pillow/Pillow/>`_ library with simple
+usable interface and access to each frame.
 
 |travisci|
 
@@ -12,15 +14,31 @@ Image processing library for Python with animated GIFs support
 Features
 --------
 
-* Info
-* Crop
-* Resize
-* Thumbnail
+Info (attributes):
+* format
+* width
+* height
+* mode
+* mode_desc
+* n_frames
+* animated
+
+Methods:
+* `convert <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.convert>`_
+* `crop <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.crop>`_
+* `filter <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.filter`_
+* `paste <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.paste`_
+* `resize <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.resize`_
+* `rotate <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.rotate`_
+* `thumbnail <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.thumbnail`_
+* `transform <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transform`_
+* `transpose <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transpose`_
 
 Requirements
 ------------
 
-Python 3.6+
+* Python 3.5+
+* Pillow 4.1.1+
 
 Setup
 -----
@@ -36,17 +54,13 @@ Usage
 
 .. code-block:: python
 
-    from imgpy import ImgPy
+    from imgpy import Img
 
 
-    # Load target image
-    im = ImgPy(fp='test.jpg')
-
-    # Thumbnail it to 100x100 size
-    im.thumbnail(size=(100, 100))
-
-    # Save
-    im.save(fp='thumb.jpg')
+    # Create thumbnail image
+    with Img(fp='test.jpg') as im:
+        im.thumbnail(size=(100, 100))
+        im.save(fp='thumb.jpg')
 
 Tests
 -----

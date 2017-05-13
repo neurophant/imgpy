@@ -6,7 +6,7 @@ from PIL.ImageSequence import Iterator
 __author__ = 'Anton Smolin'
 __copyright__ = 'Copyright (C) 2017 Anton Smolin'
 __license__ = 'MIT'
-__version__ = '0.1.0'
+__version__ = '1.0.0'
 
 
 class Img:
