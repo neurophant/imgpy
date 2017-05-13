@@ -9,17 +9,13 @@ from imgpy import Img
 @pytest.mark.parametrize('image', ({
     'sub': 'anima/bordered.gif',
     'mode': 'RGBA',
-    'res': 38
 }, {
     'sub': 'anima/clear.gif',
     'mode': 'RGBA',
-    'res': 12
 }, {
     'sub': 'fixed/bordered.jpg',
-    'res': 1
 }, {
     'sub': 'fixed/clear.jpg',
-    'res': 1
 }, ))
 def test_filter(path, image):
     with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
@@ -29,4 +25,4 @@ def test_filter(path, image):
         src.filter(ImageFilter.BLUR)
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert dest.n_frames == image['res']
+            assert dest.n_frames == src.n_frames
