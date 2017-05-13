@@ -24,11 +24,8 @@ from imgpy import Img
     'res': (510, 350, 1)
 }, ))
 def test_paste(path, image):
-    with Img(fp=path(image['sub'])) as src:
+    with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
         src.paste(255, box=image['box'])
-        with TemporaryFile() as tf:
-            src.save(fp=tf)
-            tf.seek(0)
-            with Img(fp=tf) as dest:
-                res = (dest.width, dest.height, dest.n_frames)
-    assert res == image['res']
+        src.save(fp=tf)
+        with Img(fp=tf) as dest:
+            assert (dest.width, dest.height, dest.n_frames) == image['res']

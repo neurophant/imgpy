@@ -1,32 +1,26 @@
 from tempfile import TemporaryFile
 
 import pytest
-from PIL import ImageFilter
 
 from imgpy import Img
 
 
 @pytest.mark.parametrize('image', ({
     'sub': 'anima/bordered.gif',
-    'mode': 'RGBA',
-    'res': 38
+    'angle': 90
 }, {
     'sub': 'anima/clear.gif',
-    'mode': 'RGBA',
-    'res': 12
+    'angle': 90
 }, {
     'sub': 'fixed/bordered.jpg',
-    'res': 1
+    'angle': 90
 }, {
     'sub': 'fixed/clear.jpg',
-    'res': 1
+    'angle': 90
 }, ))
-def test_filter(path, image):
+def test_rotate(path, image):
     with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
-        if 'mode' in image:
-            src.convert(image['mode'])
-
-        src.filter(ImageFilter.BLUR)
+        src.rotate(image['angle'], expand=True)
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert dest.n_frames == image['res']
+            assert (dest.width, dest.height) == (src.width, src.height)

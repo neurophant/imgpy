@@ -19,11 +19,8 @@ from imgpy import Img
     'res': ('L', 1)
 }, ))
 def test_convert(path, image):
-    with Img(fp=path(image['sub'])) as src:
+    with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
         src.convert('L')
-        with TemporaryFile() as tf:
-            src.save(fp=tf)
-            tf.seek(0)
-            with Img(fp=tf) as dest:
-                res = (dest.mode, dest.n_frames)
-    assert res == image['res']
+        src.save(fp=tf)
+        with Img(fp=tf) as dest:
+            assert (dest.mode, dest.n_frames) == image['res']

@@ -19,11 +19,8 @@ from imgpy import Img
     'size': (100, 100)
 }, ))
 def test_resize(path, image):
-    with Img(fp=path(image['sub'])) as src:
+    with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
         src.resize(image['size'])
-        with TemporaryFile() as tf:
-            src.save(fp=tf)
-            tf.seek(0)
-            with Img(fp=tf) as dest:
-                res = (dest.width, dest.height)
-    assert res == image['size']
+        src.save(fp=tf)
+        with Img(fp=tf) as dest:
+            assert (dest.width, dest.height) == image['size']
