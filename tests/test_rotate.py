@@ -23,4 +23,4 @@ def test_rotate(path, image):
         src.rotate(image['angle'], expand=True)
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height) == (src.width, src.height)
+            assert (dest.width, dest.height, dest.n_frames) == (src.width, src.height, src.n_frames)

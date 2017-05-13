@@ -1,28 +1,30 @@
 from tempfile import TemporaryFile
 
 import pytest
-from PIL import ImageFilter
 
 from imgpy import Img
 
 
 @pytest.mark.parametrize('image', ({
     'sub': 'anima/bordered.gif',
-    'mode': 'RGBA',
+    'size': (100, 100),
+    'res': (100, 55)
 }, {
     'sub': 'anima/clear.gif',
-    'mode': 'RGBA',
+    'size': (100, 100),
+    'res': (100, 53)
 }, {
     'sub': 'fixed/bordered.jpg',
+    'size': (100, 100),
+    'res': (100, 100)
 }, {
     'sub': 'fixed/clear.jpg',
+    'size': (100, 100),
+    'res': (100, 68)
 }, ))
-def test_filter(path, image):
+def test_thumbnail(path, image):
     with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
-        if 'mode' in image:
-            src.convert(image['mode'])
-
-        src.filter(ImageFilter.BLUR)
+        src.thumbnail(image['size'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == (src.width, src.height, src.n_frames)
+            assert (dest.width, dest.height, dest.n_frames) == image['res'] + (src.n_frames, )

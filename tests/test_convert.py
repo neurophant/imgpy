@@ -7,20 +7,24 @@ from imgpy import Img
 
 @pytest.mark.parametrize('image', ({
     'sub': 'anima/bordered.gif',
-    'res': ('P', 38)
+    'convert': 'L',
+    'mode': 'P'
 }, {
     'sub': 'anima/clear.gif',
-    'res': ('P', 12)
+    'convert': 'L',
+    'mode': 'P'
 }, {
     'sub': 'fixed/bordered.jpg',
-    'res': ('L', 1)
+    'convert': 'L',
+    'mode': 'L'
 }, {
     'sub': 'fixed/clear.jpg',
-    'res': ('L', 1)
+    'convert': 'L',
+    'mode': 'L'
 }, ))
 def test_convert(path, image):
     with Img(fp=path(image['sub'])) as src, TemporaryFile() as tf:
-        src.convert('L')
+        src.convert(image['convert'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.mode, dest.n_frames) == image['res']
+            assert (dest.width, dest.height, dest.mode, dest.n_frames) == (src.width, src.height, image['mode'], src.n_frames)
