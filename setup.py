@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='imgpy',
-    version='1.0.0',
+    version='1.1.0',
     description='Image processing library for Python with animated GIFs support',
     long_description=long_description,
     url='https://github.com/embali/imgpy/',

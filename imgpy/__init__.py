@@ -1,12 +1,13 @@
 from functools import wraps
 
 from PIL import Image
+from PIL.ExifTags import TAGS, GPSTAGS
 from PIL.ImageSequence import Iterator
 
 __author__ = 'Anton Smolin'
 __copyright__ = 'Copyright (C) 2017 Anton Smolin'
 __license__ = 'MIT'
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 
 class Img:
@@ -29,9 +30,27 @@ class Img:
     __METHODS = ('convert', 'crop', 'filter', 'paste', 'resize', 'rotate',
                  'thumbnail', 'transform', 'transpose')
 
-    __fp = None
     __image = None
     __frames = None
+
+    @property
+    def info(self):
+        return self.__image.info
+
+    @property
+    def exif(self):
+        exif = {}
+        try:
+            for key, value in self.__image._getexif().items():
+                tag = TAGS.get(key, key)
+                if tag == 'GPSInfo':
+                    value = {GPSTAGS.get(key_, key_): value_
+                             for key_, value_ in value.items()}
+                exif[tag] = value
+        except AttributeError:
+            pass
+
+        return exif
 
     @property
     def format(self):
@@ -84,7 +103,6 @@ class Img:
         return self.__frames
 
     def __init__(self, *, fp):
-        self.__fp = fp
         self.__image = Image.open(fp)
 
     def __enter__(self):
