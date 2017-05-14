@@ -27,6 +27,7 @@ class Img:
         'I': 'signed integer pixels',
         'F': 'floating point pixels'
     }
+    __ATTRIBUTES = ('size', 'width', 'height', 'mode')
     __METHODS = ('convert', 'crop', 'filter', 'paste', 'resize', 'rotate',
                  'thumbnail', 'transform', 'transpose')
 
@@ -58,27 +59,6 @@ class Img:
     @property
     def format(self):
         return self.__image.format
-
-    @property
-    def width(self):
-        if not self.__frames:
-            return self.__image.width
-
-        return self.__frames[0].width
-
-    @property
-    def height(self):
-        if not self.__frames:
-            return self.__image.height
-
-        return self.__frames[0].height
-
-    @property
-    def mode(self):
-        if not self.__frames:
-            return self.__image.mode
-
-        return self.__frames[0].mode
 
     @property
     def mode_desc(self):
@@ -114,16 +94,21 @@ class Img:
         self.close()
 
     def __getattr__(self, name):
-        if name not in self.__METHODS:
-            raise AttributeError
+        if name in self.__ATTRIBUTES:
+            return getattr(self.__frames[0] if self.__frames else self.__image, name)
 
-        def proxy(*args, **kwargs):
-            for index, frame in enumerate(self.frames):
-                res = getattr(frame, name)(*args, **kwargs)
-                if isinstance(res, Image.Image):
-                    self.__frames[index] = res
+        if name in self.__METHODS:
+            self.load()
 
-        return proxy
+            def proxy(*args, **kwargs):
+                for index, frame in enumerate(self.__frames):
+                    res = getattr(frame, name)(*args, **kwargs)
+                    if isinstance(res, Image.Image):
+                        self.__frames[index] = res
+
+            return proxy
+
+        raise AttributeError
 
     def load(self, *, limit=None, first=True):
         if self.__frames is None:
@@ -141,7 +126,9 @@ class Img:
                 if index in set(indexes)]
 
     def save(self, *, fp):
-        if not self.frames:
+        self.load()
+
+        if not self.__frames:
             return
 
         options = {'save_all': True, 'append_images': self.__frames[1:]} \

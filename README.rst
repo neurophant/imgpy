@@ -20,6 +20,7 @@ Attributes:
 * `info <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.info>`_
 * exif - dict with EXIF tags and GPS dict with GPS tags if presented
 * `format <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.format>`_
+* `size <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.size>`_
 * `width <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.width>`_
 * `height <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.height>`_
 * `mode <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.mode>`_
@@ -65,6 +66,11 @@ Usage
 
     from imgpy import Img
 
+
+    # Crop image
+    with Img(fp='test.gif') as im:
+        im.crop(box=(10, 10, 110, 110))
+        im.save(fp='crop.gif')
 
     # Create thumbnail image
     with Img(fp='test.gif') as im:
