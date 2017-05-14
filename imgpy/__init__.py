@@ -31,6 +31,7 @@ class Img:
                  'thumbnail', 'transform', 'transpose')
 
     __image = None
+    __exif = None
     __frames = None
 
     @property
@@ -39,18 +40,20 @@ class Img:
 
     @property
     def exif(self):
-        exif = {}
-        try:
-            for key, value in self.__image._getexif().items():
-                tag = TAGS.get(key, key)
-                if tag == 'GPSInfo':
-                    value = {GPSTAGS.get(key_, key_): value_
-                             for key_, value_ in value.items()}
-                exif[tag] = value
-        except AttributeError:
-            pass
+        if self.__exif is None:
+            self.__exif = {}
 
-        return exif
+            try:
+                for key, value in self.__image._getexif().items():
+                    tag = TAGS.get(key, key)
+                    if tag == 'GPSInfo':
+                        value = {GPSTAGS.get(key_, key_): value_
+                                 for key_, value_ in value.items()}
+                    self.__exif[tag] = value
+            except AttributeError:
+                pass
+
+        return self.__exif
 
     @property
     def format(self):
