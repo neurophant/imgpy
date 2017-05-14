@@ -17,16 +17,18 @@ usable interface and access to each frame.
 Features
 --------
 
-Info (attributes):
+Attributes:
 
-* format
-* width
-* height
-* mode
-* mode_desc
-* n_frames
-* animated
-* frames
+* `info <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.info>`_
+* exif - dict with EXIF tags and GPS dict with GPS tags if presented
+* `format <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.format>`_
+* `width <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.width>`_
+* `height <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.height>`_
+* `mode <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.mode>`_
+* mode_desc - image mode description
+* n_frames - frame count
+* animated - flag, which shows if image is animated
+* frames - list of frames
 
 Methods:
 
@@ -39,8 +41,11 @@ Methods:
 * `thumbnail <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.thumbnail>`_
 * `transform <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transform>`_
 * `transpose <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transpose>`_
-* save
-* close
+* load - gets called first time you access *frames* attribute, call this method
+explicitly to load all or limited number of frames (first n frames or random n
+frames without reordering)
+* save - save image
+* close - close image
 
 Requirements
 ------------
@@ -69,6 +74,11 @@ Usage
     with Img(fp='test.gif') as im:
         im.thumbnail(size=(100, 100))
         im.save(fp='thumb.gif')
+
+    # Save 10 random GIF frames
+    with Img(fp='test.gif') as im:
+        im.load(limit=10, shuffle=True)
+        im.save(fp='random.gif')
 
 Tests
 -----

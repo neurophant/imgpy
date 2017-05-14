@@ -125,7 +125,7 @@ class Img:
 
         return proxy
 
-    def load(self, limit=None, shuffle=False):
+    def load(self, *, limit=None, shuffle=False):
         if self.__frames is None:
             indexes = list(range(self.n_frames))
             if limit:
