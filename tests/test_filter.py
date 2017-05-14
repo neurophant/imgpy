@@ -25,5 +25,5 @@ def test_filter(path, image):
         src.filter(ImageFilter.BLUR)
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height,
-                    dest.frame_count) == (src.width, src.height, src.frame_count)
+            assert (dest.width, dest.height, dest.frame_count) == (
+                src.width, src.height, src.frame_count)

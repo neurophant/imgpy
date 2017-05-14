@@ -47,10 +47,10 @@ class Img:
             try:
                 for key, value in self.__image._getexif().items():
                     tag = TAGS.get(key, key)
-                    if tag == 'GPSInfo':
-                        value = {GPSTAGS.get(key_, key_): value_
-                                 for key_, value_ in value.items()}
-                    self.__exif[tag] = value
+                    self.__exif[tag] = {
+                        GPSTAGS.get(key_, key_): value_
+                        for key_, value_ in value.items()
+                    } if tag == 'GPSInfo' else value
             except AttributeError:
                 pass
 
@@ -95,7 +95,8 @@ class Img:
 
     def __getattr__(self, name):
         if name in self.__ATTRIBUTES:
-            return getattr(self.__frames[0] if self.__frames else self.__image, name)
+            return getattr(self.__frames[0]
+                           if self.__frames else self.__image, name)
 
         if name in self.__METHODS:
             self.load()
@@ -123,7 +124,8 @@ class Img:
             self.__frames = [
                 frame.copy()
                 for index, frame in enumerate(Iterator(self.__image))
-                if index in set(indexes)]
+                if index in set(indexes)
+            ]
 
     def save(self, *, fp):
         self.load()
