@@ -39,7 +39,7 @@ Methods:
 * `thumbnail <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.thumbnail>`_
 * `transform <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transform>`_
 * `transpose <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.Image.transpose>`_
-* load - gets called first time you access **frames** attribute, call this method explicitly to load all or limited number of frames (first n frames or random n frames without reordering)
+* load - gets called when you access **frames** attribute for the first time or call any processing or save method, call this method explicitly to load all or limited number of frames (first n frames or random n frames without reordering)
 * save - save image
 * close - close image
 
