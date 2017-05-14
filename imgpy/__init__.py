@@ -1,4 +1,4 @@
-from functools import wraps
+import random
 
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
@@ -31,6 +31,7 @@ class Img:
                  'thumbnail', 'transform', 'transpose')
 
     __image = None
+    __frame_limit = None
     __exif = None
     __frames = None
 
@@ -101,12 +102,23 @@ class Img:
     @property
     def frames(self):
         if self.__frames is None:
-            self.__frames = [frame.copy() for frame in Iterator(self.__image)]
+            indexes = list(range(self.n_frames))
+            if self.__frame_limit:
+                mix = indexes[1:]
+                random.shuffle(mix)
+                indexes[1:] = mix
+                indexes = indexes[:self.__frame_limit]
+
+            self.__frames = [
+                frame.copy()
+                for index, frame in enumerate(Iterator(self.__image))
+                if index in set(indexes)]
 
         return self.__frames
 
-    def __init__(self, *, fp):
+    def __init__(self, *, fp, frame_limit=None):
         self.__image = Image.open(fp)
+        self.__frame_limit = frame_limit
 
     def __enter__(self):
         return self
