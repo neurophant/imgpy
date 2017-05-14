@@ -24,9 +24,9 @@ Attributes:
 * `height <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.height>`_
 * `mode <https://pillow.readthedocs.io/en/4.1.x/reference/Image.html#PIL.Image.mode>`_
 * mode_desc - image mode description
-* n_frames - frame count
+* frame_count - frame count
 * animated - flag, which shows if image is animated
-* frames - list of frames
+* frames - frame list
 
 Methods:
 
@@ -73,7 +73,7 @@ Usage
 
     # Save 10 random GIF frames
     with Img(fp='test.gif') as im:
-        im.load(limit=10, shuffle=True)
+        im.load(limit=10, first=False)
         im.save(fp='random.gif')
 
 Tests

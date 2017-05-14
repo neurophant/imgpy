@@ -14,4 +14,4 @@ def test_transpose(path, image):
         src.save(fp=tf)
         with Img(fp=tf) as dest:
             assert (dest.width, dest.height,
-                    dest.n_frames) == (src.width, src.height, src.n_frames)
+                    dest.frame_count) == (src.width, src.height, src.frame_count)

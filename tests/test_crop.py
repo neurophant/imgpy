@@ -23,5 +23,5 @@ def test_crop(path, image):
         src.crop(image['box'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.n_frames) == \
-                (image['box'][2] - image['box'][0], image['box'][3] - image['box'][1], src.n_frames)
+            assert (dest.width, dest.height, dest.frame_count) == \
+                (image['box'][2] - image['box'][0], image['box'][3] - image['box'][1], src.frame_count)

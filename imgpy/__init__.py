@@ -85,7 +85,7 @@ class Img:
         return self.__MODES.get(self.mode)
 
     @property
-    def n_frames(self):
+    def frame_count(self):
         if self.__frames:
             return len(self.__frames)
 
@@ -96,7 +96,7 @@ class Img:
 
     @property
     def animated(self):
-        return self.n_frames > 1
+        return self.frame_count > 1
 
     @property
     def frames(self):
@@ -125,11 +125,11 @@ class Img:
 
         return proxy
 
-    def load(self, *, limit=None, shuffle=False):
+    def load(self, *, limit=None, first=True):
         if self.__frames is None:
-            indexes = list(range(self.n_frames))
+            indexes = list(range(self.frame_count))
             if limit:
-                if shuffle:
+                if not first:
                     mix = indexes[1:]
                     random.shuffle(mix)
                     indexes[1:] = mix

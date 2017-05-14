@@ -27,5 +27,5 @@ def test_convert(path, image):
         src.convert(image['convert'])
         src.save(fp=tf)
         with Img(fp=tf) as dest:
-            assert (dest.width, dest.height, dest.mode, dest.n_frames) == (
-                src.width, src.height, image['mode'], src.n_frames)
+            assert (dest.width, dest.height, dest.mode, dest.frame_count) == (
+                src.width, src.height, image['mode'], src.frame_count)
