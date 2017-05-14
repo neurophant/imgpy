@@ -31,7 +31,6 @@ class Img:
                  'thumbnail', 'transform', 'transpose')
 
     __image = None
-    __frame_limit = None
     __exif = None
     __frames = None
 
@@ -101,24 +100,12 @@ class Img:
 
     @property
     def frames(self):
-        if self.__frames is None:
-            indexes = list(range(self.n_frames))
-            if self.__frame_limit:
-                mix = indexes[1:]
-                random.shuffle(mix)
-                indexes[1:] = mix
-                indexes = indexes[:self.__frame_limit]
-
-            self.__frames = [
-                frame.copy()
-                for index, frame in enumerate(Iterator(self.__image))
-                if index in set(indexes)]
+        self.load()
 
         return self.__frames
 
-    def __init__(self, *, fp, frame_limit=None):
+    def __init__(self, *, fp):
         self.__image = Image.open(fp)
-        self.__frame_limit = frame_limit
 
     def __enter__(self):
         return self
@@ -137,6 +124,21 @@ class Img:
                     self.__frames[index] = res
 
         return proxy
+
+    def load(self, limit=None, shuffle=False):
+        if self.__frames is None:
+            indexes = list(range(self.n_frames))
+            if limit:
+                if shuffle:
+                    mix = indexes[1:]
+                    random.shuffle(mix)
+                    indexes[1:] = mix
+                indexes = indexes[:limit]
+
+            self.__frames = [
+                frame.copy()
+                for index, frame in enumerate(Iterator(self.__image))
+                if index in set(indexes)]
 
     def save(self, *, fp):
         if not self.frames:
